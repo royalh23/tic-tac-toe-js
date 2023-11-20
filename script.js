@@ -9,3 +9,7 @@ const Gameboard = (function() {
   };
   return {gameboard, displayBoard};
 })();
+
+function Player(name, choice) {
+  return {name, choice};
+}
