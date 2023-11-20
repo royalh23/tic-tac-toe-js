@@ -1,13 +1,23 @@
 const Game = (function() {
   const checkGame = () => {
     return;
-  }
+  };
 
   const runGame = () => {
-    return;
-  }
+    let playerOneName = prompt("What's the name of the first player?");
+    let playerOneSelection = prompt('Please select between "X" and "O":');
+    let playerTwoName = prompt("What's the name of the second player?");
+    let playerTwoSelection;
+    if (playerOneSelection === "X") playerTwoSelection = "O";
+    else playerTwoSelection = "X";
+    let playerOne = Player(playerOneName, playerOneSelection);
+    let playerTwo = Player(playerTwoName, playerTwoSelection);
+    console.log(`${playerTwo.name}'s selection is "${playerTwo.selection}" because of ${playerOne.name}'s selection.`);
+    Gameboard.displayBoard();
+    
+  };
 
-  return (checkGame, runGame);
+  return {checkGame, runGame};
 })();
 
 const Gameboard = (function() {
@@ -22,6 +32,8 @@ const Gameboard = (function() {
   return {gameboard, displayBoard};
 })();
 
-function Player(name, choice) {
-  return {name, choice};
+function Player(name, selection) {
+  return {name, selection};
 }
+
+Game.runGame();
