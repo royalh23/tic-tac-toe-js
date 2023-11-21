@@ -11,6 +11,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
+  gap: 50px;
 }
 
 body, h1 {
@@ -18,7 +19,7 @@ body, h1 {
   padding: 0;
 }
 
-h1, .names, .container {
+h1, .names {
   width: 60%;
 }
 
@@ -38,5 +39,19 @@ h1 {
 }
 
 #player-one, #player-two {
-  width: 10 0px;
+  width: 120px;
+}
+
+.container {
+  display: grid;
+  grid-template-columns: repeat(3, 120px);
+  grid-template-rows: repeat(3, 120px);
+  gap: 5px;
+  background-color: black;
+}
+
+.container > div {
+  width: 120px;
+  height: 120px;
+  background-color: white;
 }
