@@ -22,7 +22,7 @@ const Game = (function() {
     let playerTwoSelection;
     if (playerOneSelection === "X") playerTwoSelection = "O";
     else playerTwoSelection = "X";
-    let playerOne = Player(playerOneName, playerOneSelection);
+    let playerOne = Player(playerOneName, playerOneSelection.toUpperCase());
     let playerTwo = Player(playerTwoName, playerTwoSelection);
     let playerOneNumber;
     let playerTwoNumber;
