@@ -7,6 +7,10 @@ html {
 }
 
 body {
+  height: 100vh;
+}
+
+body, h1 {
   margin: 0;
   padding: 0;
 }
