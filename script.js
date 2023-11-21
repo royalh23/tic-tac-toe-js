@@ -69,4 +69,4 @@ function Player(name, selection) {
   return {name, selection};
 }
 
-Game.runGame();
+// Game.runGame();
