@@ -20,7 +20,7 @@ const Game = (function() {
     let playerOneSelection = prompt('Please select between "X" and "O":');
     let playerTwoName = prompt("What's the name of the second player?");
     let playerTwoSelection;
-    if (playerOneSelection === "X") playerTwoSelection = "O";
+    if (playerOneSelection.toUpperCase() === "X") playerTwoSelection = "O";
     else playerTwoSelection = "X";
     let playerOne = Player(playerOneName, playerOneSelection.toUpperCase());
     let playerTwo = Player(playerTwoName, playerTwoSelection);
