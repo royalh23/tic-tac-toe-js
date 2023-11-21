@@ -1,6 +1,18 @@
 const Game = (function() {
-  const checkGame = () => {
-    return;
+  let gameOver = false;
+
+  const checkGame = (player) => {
+    if (Gameboard.gameboard[0] == Gameboard.gameboard[1] && Gameboard.gameboard[1] == Gameboard.gameboard[2] ||
+        Gameboard.gameboard[0] == Gameboard.gameboard[3] && Gameboard.gameboard[3] == Gameboard.gameboard[6] ||
+        Gameboard.gameboard[2] == Gameboard.gameboard[5] && Gameboard.gameboard[5] == Gameboard.gameboard[8] ||
+        Gameboard.gameboard[6] == Gameboard.gameboard[7] && Gameboard.gameboard[7] == Gameboard.gameboard[8] ||
+        Gameboard.gameboard[0] == Gameboard.gameboard[4] && Gameboard.gameboard[4] == Gameboard.gameboard[8] ||
+        Gameboard.gameboard[2] == Gameboard.gameboard[4] && Gameboard.gameboard[4] == Gameboard.gameboard[6] ||
+        Gameboard.gameboard[3] == Gameboard.gameboard[4] && Gameboard.gameboard[4] == Gameboard.gameboard[5] ||
+        Gameboard.gameboard[1] == Gameboard.gameboard[4] && Gameboard.gameboard[4] == Gameboard.gameboard[7]) {
+          console.log(`Game over! ${player.name} wins.`);
+          gameOver = true;
+        }
   };
 
   const runGame = () => {
@@ -12,12 +24,33 @@ const Game = (function() {
     else playerTwoSelection = "X";
     let playerOne = Player(playerOneName, playerOneSelection);
     let playerTwo = Player(playerTwoName, playerTwoSelection);
+    let playerOneNumber;
+    let playerTwoNumber;
     console.log(`${playerTwo.name}'s selection is "${playerTwo.selection}" because of ${playerOne.name}'s selection.`);
     Gameboard.displayBoard();
+
+    for (let i = 0; i < 4; i++) {
+      playerOneNumber = prompt(`${playerOne.name}, please enter a number to place ${playerOne.selection}`);
+      Gameboard.gameboard[playerOneNumber - 1] = playerOne.selection;
+      Gameboard.displayBoard();
+      checkGame(playerOne);
+      if (gameOver) return;
+
+      playerTwoNumber = prompt(`${playerTwo.name}, please enter a number to place ${playerTwo.selection}`);
+      Gameboard.gameboard[playerTwoNumber - 1] = playerTwo.selection;
+      Gameboard.displayBoard();
+      checkGame(playerTwo);
+      if (gameOver) return;
+    }
+
+    playerOneNumber = prompt(`${playerOne.name}, please enter a number to place ${playerOne.selection}`);
+    Gameboard.gameboard[playerOneNumber - 1] = playerOne.selection;
+    Gameboard.displayBoard();
     
+    console.log("Game over! It's a tie.");
   };
 
-  return {checkGame, runGame};
+  return {runGame};
 })();
 
 const Gameboard = (function() {
