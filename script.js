@@ -1,7 +1,5 @@
 const Game = (function() {
   let gameOver = false;
-  const playerNames = [];
-  const nameInputs = document.querySelectorAll("input");
 
   function checkGame(player) {
     if (Gameboard.gameboard[0] == Gameboard.gameboard[1] && Gameboard.gameboard[1] == Gameboard.gameboard[2] ||
@@ -18,18 +16,9 @@ const Game = (function() {
   }
 
   function runGame() {
-    nameInputs.forEach(input => playerNames.push(input.value));
-    let playerOneName = playerNames[0];
-    let playerOneSelection = prompt('Please select between "X" and "O":');
-    let playerTwoName = playerNames[1];
-    let playerTwoSelection;
-    if (playerOneSelection.toUpperCase() === "X") playerTwoSelection = "O";
-    else playerTwoSelection = "X";
-    let playerOne = Player(playerOneName, playerOneSelection.toUpperCase());
-    let playerTwo = Player(playerTwoName, playerTwoSelection);
-    let playerOneNumber;
-    let playerTwoNumber;
-    console.log(`${playerTwo.name}'s selection is "${playerTwo.selection}" because of ${playerOne.name}'s selection.`);
+    DisplayController.getNames();
+    let playerOne = Player(DisplayController.playerNames[0], "X");
+    let playerTwo = Player(DisplayController.playerNames[1], "O");
     Gameboard.displayBoard();
 
     for (let i = 0; i < 4; i++) {
@@ -71,6 +60,17 @@ const Gameboard = (function() {
 function Player(name, selection) {
   return {name, selection};
 }
+
+const DisplayController = (function() {
+  const playerNames = [];
+  const nameInputs = document.querySelectorAll("input");
+
+  function getNames() {
+    nameInputs.forEach(input => playerNames.push(input.value));
+  }
+
+  return {playerNames, getNames};
+})();
 
 const startBtn = document.querySelector(".start");
 startBtn.addEventListener("click", Game.runGame);
