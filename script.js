@@ -1,7 +1,9 @@
 const Game = (function() {
   let gameOver = false;
+  const playerNames = [];
+  const nameInputs = document.querySelectorAll("input");
 
-  const checkGame = (player) => {
+  function checkGame(player) {
     if (Gameboard.gameboard[0] == Gameboard.gameboard[1] && Gameboard.gameboard[1] == Gameboard.gameboard[2] ||
         Gameboard.gameboard[0] == Gameboard.gameboard[3] && Gameboard.gameboard[3] == Gameboard.gameboard[6] ||
         Gameboard.gameboard[2] == Gameboard.gameboard[5] && Gameboard.gameboard[5] == Gameboard.gameboard[8] ||
@@ -13,12 +15,13 @@ const Game = (function() {
           console.log(`Game over! ${player.name} wins.`);
           gameOver = true;
         }
-  };
+  }
 
-  const runGame = () => {
-    let playerOneName = prompt("What's the name of the first player?");
+  function runGame() {
+    nameInputs.forEach(input => playerNames.push(input.value));
+    let playerOneName = playerNames[0];
     let playerOneSelection = prompt('Please select between "X" and "O":');
-    let playerTwoName = prompt("What's the name of the second player?");
+    let playerTwoName = playerNames[1];
     let playerTwoSelection;
     if (playerOneSelection.toUpperCase() === "X") playerTwoSelection = "O";
     else playerTwoSelection = "X";
@@ -48,20 +51,20 @@ const Game = (function() {
     Gameboard.displayBoard();
     
     console.log("Game over! It's a tie.");
-  };
+  }
 
   return {runGame};
 })();
 
 const Gameboard = (function() {
   const gameboard = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-  const displayBoard = () => {
+  function displayBoard() {
     console.log(` ${gameboard[0]} | ${gameboard[1]} | ${gameboard[2]} ` + 
                 `\n---+---+---\n` + 
                 ` ${gameboard[3]} | ${gameboard[4]} | ${gameboard[5]} ` + 
                 `\n---+---+---\n` + 
                 ` ${gameboard[6]} | ${gameboard[7]} | ${gameboard[8]} `);
-  };
+  }
   return {gameboard, displayBoard};
 })();
 
@@ -69,4 +72,5 @@ function Player(name, selection) {
   return {name, selection};
 }
 
-// Game.runGame();
+const startBtn = document.querySelector(".start");
+startBtn.addEventListener("click", Game.runGame);
