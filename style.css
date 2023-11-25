@@ -60,3 +60,21 @@ h1 {
   align-items: center;
   font-size: 1.3rem;
 }
+
+::backdrop {
+  backdrop-filter: blur(4px);
+}
+
+dialog {
+  width: 200px;
+}
+
+.dialog-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.dialog-text {
+  text-align: center;
+}

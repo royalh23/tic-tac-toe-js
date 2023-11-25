@@ -71,7 +71,7 @@ const DisplayController = (function() {
   const nameInputs = document.querySelectorAll("input");
   const boardSquares = document.querySelectorAll(".container > div");
   const gameDialog = document.querySelector("dialog");
-  const newGameBtn = document.querySelector("dialog > button");
+  const newGameBtn = document.querySelector("dialog button");
   const dialogText= document.querySelector(".dialog-text");
 
   newGameBtn.addEventListener("click", Game.resetGame);
