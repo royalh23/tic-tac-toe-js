@@ -8,6 +8,7 @@ html {
 
 body {
   font-size: 1.3rem;
+  font-family: 'Space Grotesk', sans-serif;
   height: 100vh;
   display: flex;
   flex-direction: column;
@@ -37,6 +38,7 @@ h1 {
 }
 
 .names input {
+  font-family: inherit;
   font-size: 1.2rem;
   border-radius: 5px;
   border: 1.5px solid #cfd1d4;
@@ -87,7 +89,7 @@ h1 {
 }
 
 dialog {
-  width: 200px;
+  min-width: 200px;
 }
 
 .dialog-container {
@@ -98,6 +100,7 @@ dialog {
 }
 
 button {
+  font-family: inherit;
   cursor: pointer;
   font-size: 1.2rem;
   width: 120px;
