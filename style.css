@@ -76,10 +76,6 @@ dialog {
   gap: 20px;
 }
 
-/* .dialog-text {
-  text-align: center;
-} */
-
 button {
   cursor: pointer;
   font-size: 1.2rem;
