@@ -26,8 +26,8 @@ const Game = (function() {
     } else {
       startBtn.textContent = "Restart";
       DisplayController.getNames();
-      playerOne = Player(DisplayController.playerNames[0]);
-      playerTwo = Player(DisplayController.playerNames[1]);
+      playerOne = Player(DisplayController.playerNames[0], "X");
+      playerTwo = Player(DisplayController.playerNames[1], "O");
       DisplayController.addEventListeners();
     }
   }
@@ -35,12 +35,12 @@ const Game = (function() {
   function placeMark(e) {
     if (!(e.target.textContent === "X" || e.target.textContent === "O")) {
       if (gameRound % 2 === 1) {
-        Gameboard.gameboard[e.target.dataset.index] = "X";
+        Gameboard.gameboard[e.target.dataset.index] = playerOne.mark;
         DisplayController.displayBoard();
         checkGame(playerOne);
         gameRound++;
       } else {
-        Gameboard.gameboard[e.target.dataset.index] = "O";
+        Gameboard.gameboard[e.target.dataset.index] = playerTwo.mark;
         DisplayController.displayBoard();
         checkGame(playerTwo);
         gameRound++;
@@ -67,8 +67,8 @@ const Gameboard = (function() {
   return {gameboard};
 })();
 
-function Player(name) {
-  return {name};
+function Player(name, mark) {
+  return {name, mark};
 }
 
 const DisplayController = (function() {
