@@ -1,5 +1,7 @@
 const Game = (function() {
-  let gameOver = false;
+  let gameRound = 1;
+  let playerOne;
+  let playerTwo;
 
   function checkGame(player) {
     if (Gameboard.gameboard[0] == Gameboard.gameboard[1] && Gameboard.gameboard[1] == Gameboard.gameboard[2] ||
@@ -10,66 +12,88 @@ const Game = (function() {
         Gameboard.gameboard[2] == Gameboard.gameboard[4] && Gameboard.gameboard[4] == Gameboard.gameboard[6] ||
         Gameboard.gameboard[3] == Gameboard.gameboard[4] && Gameboard.gameboard[4] == Gameboard.gameboard[5] ||
         Gameboard.gameboard[1] == Gameboard.gameboard[4] && Gameboard.gameboard[4] == Gameboard.gameboard[7]) {
-          console.log(`Game over! ${player.name} wins.`);
-          gameOver = true;
+          DisplayController.dialogText.textContent = `${player.name} wins!`;
+          DisplayController.gameDialog.showModal();
+        } else if (gameRound == 9) {
+          DisplayController.dialogText.textContent = "It's a tie!";
+          DisplayController.gameDialog.showModal();
         }
   }
 
   function runGame() {
     DisplayController.getNames();
-    let playerOne = Player(DisplayController.playerNames[0], "X");
-    let playerTwo = Player(DisplayController.playerNames[1], "O");
-    Gameboard.displayBoard();
-
-    for (let i = 0; i < 4; i++) {
-      playerOneNumber = prompt(`${playerOne.name}, please enter a number to place ${playerOne.selection}`);
-      Gameboard.gameboard[playerOneNumber - 1] = playerOne.selection;
-      Gameboard.displayBoard();
-      checkGame(playerOne);
-      if (gameOver) return;
-
-      playerTwoNumber = prompt(`${playerTwo.name}, please enter a number to place ${playerTwo.selection}`);
-      Gameboard.gameboard[playerTwoNumber - 1] = playerTwo.selection;
-      Gameboard.displayBoard();
-      checkGame(playerTwo);
-      if (gameOver) return;
-    }
-
-    playerOneNumber = prompt(`${playerOne.name}, please enter a number to place ${playerOne.selection}`);
-    Gameboard.gameboard[playerOneNumber - 1] = playerOne.selection;
-    Gameboard.displayBoard();
+    playerOne = Player(DisplayController.playerNames[0]);
+    playerTwo = Player(DisplayController.playerNames[1]);
     
-    console.log("Game over! It's a tie.");
+    DisplayController.addEventListeners();
   }
 
-  return {runGame};
+  function placeMark(e) {
+    if (!(e.target.textContent === "X" || e.target.textContent === "O")) {
+      if (gameRound % 2 === 1) {
+        Gameboard.gameboard[e.target.dataset.index] = "X";
+        DisplayController.displayBoard();
+        checkGame(playerOne);
+        gameRound++;
+      } else {
+        Gameboard.gameboard[e.target.dataset.index] = "O";
+        DisplayController.displayBoard();
+        checkGame(playerTwo);
+        gameRound++;
+      }
+    }
+  }
+
+  function resetGame() {
+    gameRound = 1;
+    DisplayController.removeEventListeners();
+    Gameboard.gameboard = ["", " ", "  ", "   ", "    ", "     ", "      ", "       ", "        ",];
+    DisplayController.displayBoard();
+    DisplayController.gameDialog.close();
+    runGame();
+  }
+
+  return {checkGame, runGame, placeMark, resetGame};
 })();
 
 const Gameboard = (function() {
-  const gameboard = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-  function displayBoard() {
-    console.log(` ${gameboard[0]} | ${gameboard[1]} | ${gameboard[2]} ` + 
-                `\n---+---+---\n` + 
-                ` ${gameboard[3]} | ${gameboard[4]} | ${gameboard[5]} ` + 
-                `\n---+---+---\n` + 
-                ` ${gameboard[6]} | ${gameboard[7]} | ${gameboard[8]} `);
-  }
-  return {gameboard, displayBoard};
+  const gameboard = ["", " ", "  ", "   ", "    ", "     ", "      ", "       ", "        ",];
+  
+  return {gameboard};
 })();
 
-function Player(name, selection) {
-  return {name, selection};
+function Player(name) {
+  return {name};
 }
 
 const DisplayController = (function() {
   const playerNames = [];
   const nameInputs = document.querySelectorAll("input");
+  const boardSquares = document.querySelectorAll(".container > div");
+  const gameDialog = document.querySelector("dialog");
+  const newGameBtn = document.querySelector("dialog > button");
+  const dialogText= document.querySelector(".dialog-text");
+
+  newGameBtn.addEventListener("click", Game.resetGame);
+
+  function displayBoard() {
+    boardSquares.forEach(square => square.textContent = Gameboard.gameboard[square.dataset.index]);
+  }
 
   function getNames() {
+    playerNames.length = 0;
     nameInputs.forEach(input => playerNames.push(input.value));
   }
 
-  return {playerNames, getNames};
+  function addEventListeners() {
+    boardSquares.forEach(square => square.addEventListener("click", Game.placeMark));
+  }
+
+  function removeEventListeners() {
+    boardSquares.forEach(square => square.removeEventListener("click", Game.placeMark));
+  }
+
+  return {playerNames, gameDialog, dialogText, newGameBtn, displayBoard, getNames, addEventListeners, removeEventListeners};
 })();
 
 const startBtn = document.querySelector(".start");
