@@ -21,11 +21,15 @@ const Game = (function() {
   }
 
   function runGame() {
-    DisplayController.getNames();
-    playerOne = Player(DisplayController.playerNames[0]);
-    playerTwo = Player(DisplayController.playerNames[1]);
-    
-    DisplayController.addEventListeners();
+    if (startBtn.textContent == "Restart") {
+      resetGame();
+    } else {
+      startBtn.textContent = "Restart";
+      DisplayController.getNames();
+      playerOne = Player(DisplayController.playerNames[0]);
+      playerTwo = Player(DisplayController.playerNames[1]);
+      DisplayController.addEventListeners();
+    }
   }
 
   function placeMark(e) {
@@ -45,12 +49,13 @@ const Game = (function() {
   }
 
   function resetGame() {
+    DisplayController.nameInputs.forEach(input => input.value = "");
+    startBtn.textContent = "Start";
     gameRound = 1;
     DisplayController.removeEventListeners();
     Gameboard.gameboard = ["", " ", "  ", "   ", "    ", "     ", "      ", "       ", "        ",];
     DisplayController.displayBoard();
     DisplayController.gameDialog.close();
-    runGame();
   }
 
   return {checkGame, runGame, placeMark, resetGame};
@@ -93,7 +98,7 @@ const DisplayController = (function() {
     boardSquares.forEach(square => square.removeEventListener("click", Game.placeMark));
   }
 
-  return {playerNames, gameDialog, dialogText, newGameBtn, displayBoard, getNames, addEventListeners, removeEventListeners};
+  return {playerNames, nameInputs, gameDialog, dialogText, newGameBtn, displayBoard, getNames, addEventListeners, removeEventListeners};
 })();
 
 const startBtn = document.querySelector(".start");
