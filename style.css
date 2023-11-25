@@ -7,6 +7,7 @@ html {
 }
 
 body {
+  font-size: 1.3rem;
   height: 100vh;
   display: flex;
   flex-direction: column;
@@ -26,12 +27,31 @@ h1, .names {
 h1 {
   text-align: center;
   margin-top: 50px;
+  font-size: 2rem;
 }
 
 .names {
   display: flex;
   justify-content: center;
   gap: 35px;
+}
+
+.names input {
+  font-size: 1.2rem;
+  border-radius: 5px;
+  border: 1.5px solid #cfd1d4;
+  height: 30px;
+  padding: 15px 5px;
+}
+
+.names input:hover {
+  border: 1px solid rgb(119, 176, 238);
+}
+
+.names input:focus {
+  outline: none;
+  border: 1px solid #2554d9;
+  box-shadow: 3px 3px 5px rgb(220, 220, 220);
 }
 
 .player-one, .player-two {
