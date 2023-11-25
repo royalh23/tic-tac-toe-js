@@ -90,6 +90,8 @@ h1 {
 
 dialog {
   min-width: 200px;
+  border-radius: 15px;
+  border: 0;
 }
 
 .dialog-container {
