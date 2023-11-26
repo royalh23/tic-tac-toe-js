@@ -49,12 +49,14 @@ const game = (function() {
       if (gameRound % 2 === 1) {
         toggleIndicators();
         gameboard.gameboard[e.target.dataset.index] = playerOne.mark;
+        e.target.style.color = "blue";
         displayController.displayBoard();
         checkGame(playerOne);
         gameRound++;
       } else {
         toggleIndicators();
         gameboard.gameboard[e.target.dataset.index] = playerTwo.mark;
+        e.target.style.color = "red";
         displayController.displayBoard();
         checkGame(playerTwo);
         gameRound++;
