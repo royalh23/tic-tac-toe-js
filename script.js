@@ -28,18 +28,32 @@ const game = (function() {
       displayController.getNames();
       playerOne = createPlayer(displayController.playerNames[0], "X");
       playerTwo = createPlayer(displayController.playerNames[1], "O");
+      displayController.playerOne.classList.add("blue-indicator");
       displayController.addEventListeners();
     }
+  }
+
+  function resetGame() {
+    removeIndicators();
+    displayController.nameInputs.forEach(input => input.value = "");
+    startBtn.textContent = "Start";
+    gameRound = 1;
+    displayController.removeEventListeners();
+    gameboard.gameboard = ["", " ", "  ", "   ", "    ", "     ", "      ", "       ", "        ",];
+    displayController.displayBoard();
+    displayController.gameDialog.close();
   }
 
   function placeMark(e) {
     if (!(e.target.textContent === "X" || e.target.textContent === "O")) {
       if (gameRound % 2 === 1) {
+        toggleIndicators();
         gameboard.gameboard[e.target.dataset.index] = playerOne.mark;
         displayController.displayBoard();
         checkGame(playerOne);
         gameRound++;
       } else {
+        toggleIndicators();
         gameboard.gameboard[e.target.dataset.index] = playerTwo.mark;
         displayController.displayBoard();
         checkGame(playerTwo);
@@ -48,14 +62,14 @@ const game = (function() {
     }
   }
 
-  function resetGame() {
-    displayController.nameInputs.forEach(input => input.value = "");
-    startBtn.textContent = "Start";
-    gameRound = 1;
-    displayController.removeEventListeners();
-    gameboard.gameboard = ["", " ", "  ", "   ", "    ", "     ", "      ", "       ", "        ",];
-    displayController.displayBoard();
-    displayController.gameDialog.close();
+  function toggleIndicators() {
+    displayController.playerOne.classList.toggle("blue-indicator");
+    displayController.playerTwo.classList.toggle("red-indicator");
+  }
+
+  function removeIndicators() {
+    displayController.playerOne.classList.remove("blue-indicator");
+    displayController.playerTwo.classList.remove("red-indicator");
   }
 
   return {checkGame, runGame, placeMark, resetGame};
@@ -78,6 +92,8 @@ const displayController = (function() {
   const gameDialog = document.querySelector("dialog");
   const newGameBtn = document.querySelector("dialog button");
   const dialogText= document.querySelector(".dialog-text");
+  const playerOne = document.querySelector(".player-one");
+  const playerTwo = document.querySelector(".player-two");
 
   newGameBtn.addEventListener("click", game.resetGame);
 
@@ -98,7 +114,8 @@ const displayController = (function() {
     boardSquares.forEach(square => square.removeEventListener("click", game.placeMark));
   }
 
-  return {playerNames, nameInputs, gameDialog, dialogText, newGameBtn, displayBoard, getNames, addEventListeners, removeEventListeners};
+  return {playerNames, playerOne, playerTwo, nameInputs, gameDialog, dialogText, newGameBtn, 
+          displayBoard, getNames, addEventListeners, removeEventListeners};
 })();
 
 const startBtn = document.querySelector(".start");

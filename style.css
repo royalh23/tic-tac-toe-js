@@ -120,3 +120,11 @@ button:hover {
 button:active {
   transform: translateY(4px);
 }
+
+.blue-indicator {
+  border-bottom: 5px solid rgb(0, 115, 255);
+}
+
+.red-indicator {
+  border-bottom: 5px solid red;
+}
