@@ -44,24 +44,23 @@ const game = (function() {
     displayController.gameDialog.close();
   }
 
-  function placeMark(e) {
+  function checkSquare(e) {
     if (!(e.target.textContent === "X" || e.target.textContent === "O")) {
       if (gameRound % 2 === 1) {
-        e.target.style.color = "blue";
-        toggleIndicators();
-        gameboard.gameboard[e.target.dataset.index] = playerOne.mark;
-        displayController.displayBoard();
-        checkGame(playerOne);
-        gameRound++;
+        placeMark(e, "blue", playerOne);
       } else {
-        e.target.style.color = "red";
-        toggleIndicators();
-        gameboard.gameboard[e.target.dataset.index] = playerTwo.mark;
-        displayController.displayBoard();
-        checkGame(playerTwo);
-        gameRound++;
+        placeMark(e, "red", playerTwo);
       }
     }
+  }
+
+  function placeMark(e, color, player) {
+    e.target.style.color = color;
+    toggleIndicators();
+    gameboard.gameboard[e.target.dataset.index] = player.mark;
+    displayController.displayBoard();
+    checkGame(player);
+    gameRound++;
   }
 
   function toggleIndicators() {
@@ -74,7 +73,7 @@ const game = (function() {
     displayController.playerTwo.classList.remove("red-indicator");
   }
 
-  return {checkGame, runGame, placeMark, resetGame};
+  return {checkGame, runGame, checkSquare, resetGame};
 })();
 
 const gameboard = (function() {
@@ -109,11 +108,11 @@ const displayController = (function() {
   }
 
   function addEventListeners() {
-    boardSquares.forEach(square => square.addEventListener("click", game.placeMark));
+    boardSquares.forEach(square => square.addEventListener("click", game.checkSquare));
   }
 
   function removeEventListeners() {
-    boardSquares.forEach(square => square.removeEventListener("click", game.placeMark));
+    boardSquares.forEach(square => square.removeEventListener("click", game.checkSquare));
   }
 
   return {playerNames, playerOne, playerTwo, nameInputs, gameDialog, dialogText, newGameBtn, 
